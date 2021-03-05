@@ -1,13 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class LineManager : MonoBehaviour
 {
+    [SerializeField, Tooltip("Level Controller reference")]
+    private LevelController _levelController;
+    
     private LineRenderer line;
     private Vector3 mousePos;
     public Material material;
     private int currLines = 0;
     private EnergyController _energyObjectClicked;
     private EnergyController _energyDisabledObject;
+    private List<LineRenderer> _SpawnedLines = new List<LineRenderer>();
     
 
     private void Update()
@@ -30,9 +35,11 @@ public class LineManager : MonoBehaviour
                 _energyObjectClicked.EnableEnergy();
                 line.SetPosition(0, _energyObjectClicked.transform.position);
                 line.SetPosition(1, _energyDisabledObject.transform.position);
+                _SpawnedLines.Add(line);
                 line = null;
                 currLines++;
                 RemoveEnergyDisabledObject();
+                _levelController.CheckLevelCompletion();
                 
             } else{
                 Destroy(line.gameObject);
@@ -82,5 +89,16 @@ public class LineManager : MonoBehaviour
     private void RemoveEnergyClickedObject()
     {
         _energyObjectClicked = null;
+    }
+
+    /// <summary>
+    /// Destroys lines for a new level
+    /// </summary>
+    public void ClearLines()
+    {
+        foreach (var line in _SpawnedLines){
+            Destroy(line.gameObject);
+        }
+        _SpawnedLines.Clear();
     }
 }

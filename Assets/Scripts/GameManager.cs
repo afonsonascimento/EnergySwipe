@@ -3,24 +3,25 @@
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private LevelController _levelController;
-    [SerializeField] private int _currentLevel = 1;
+    [SerializeField] private int _currentLevel = 0;
 
     private void Start()
     {
-        _currentLevel = PlayerPrefs.GetInt("Level", 1);
-        GenerateLevel(_currentLevel);
+        //PlayerPrefs.SetInt("Level",0);
+        _currentLevel = PlayerPrefs.GetInt("Level", 0);
+        InitiateLevel(_currentLevel);
     }
 
     /// <summary>
     /// Generates level based on saved data
     /// </summary>
-    private void GenerateLevel(int level)
+    private void InitiateLevel(int level)
     {
-        _levelController.GenerateLevel(level);
+        _levelController.PopulateLevel(level);
     }
     
     void OnApplicationQuit()
     {
-        PlayerPrefs.SetInt("Level", _levelController.GetLevelData().GetLevels().Count);
+        PlayerPrefs.SetInt("Level", _levelController.GetCurrentLevel());
     }
 }

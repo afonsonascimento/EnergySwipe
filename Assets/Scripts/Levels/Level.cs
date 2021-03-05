@@ -19,9 +19,9 @@ public class Level : ScriptableObject
         return _checkParcelEnergy;
     }
 
-    public void SetLevelParcelNumbersList(List<int> _parcelNumbers)
+    public void SetLevelParcelNumbersList(List<int> _numbers)
     {
-        _parcelNumbers = _parcelNumbers;
+        _parcelNumbers = _numbers;
     }
 
     public void SetLevelEnergyBoolList(List<bool> _bools)
