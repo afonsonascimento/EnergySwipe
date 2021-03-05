@@ -1,23 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class LineTest : MonoBehaviour
+public class LineManager : MonoBehaviour
 {
-    [SerializeField] private Transform[] _points;
-    [SerializeField] private LineController _line;
-
+    [SerializeField, Tooltip("Level Controller reference")]
+    private LevelController _levelController;
+    
     private LineRenderer line;
     private Vector3 mousePos;
     public Material material;
     private int currLines = 0;
-    private bool _energyObjectClicked;
-    private Vector3 _objectClickedPosition;
+    private EnergyController _energyObjectClicked;
     private EnergyController _energyDisabledObject;
-
-
-    private void Start()
-    {
-        //_line.SetUpLine(_points);
-    }
+    private List<LineRenderer> _SpawnedLines = new List<LineRenderer>();
+    
 
     private void Update()
     {
@@ -29,28 +25,31 @@ public class LineTest : MonoBehaviour
             if (line == null){
                 CreateLine();
             }
-
-            _energyObjectClicked = false;
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
-            line.SetPosition(0, _objectClickedPosition);
+            line.SetPosition(0, _energyObjectClicked.transform.position);
             line.SetPosition(1, mousePos);
         } else if (Input.GetMouseButtonUp(0) && line){
             if (_energyDisabledObject){
                 _energyDisabledObject.EnableEnergy();
-                line.SetPosition(0, _objectClickedPosition);
+                _energyObjectClicked.EnableEnergy();
+                line.SetPosition(0, _energyObjectClicked.transform.position);
                 line.SetPosition(1, _energyDisabledObject.transform.position);
+                _SpawnedLines.Add(line);
                 line = null;
                 currLines++;
                 RemoveEnergyDisabledObject();
+                _levelController.CheckLevelCompletion();
+                
             } else{
                 Destroy(line.gameObject);
             }
+            RemoveEnergyClickedObject();
             
         } else if (Input.GetMouseButton(0) && line){
             mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.z = 0;
-            line.SetPosition(0, _objectClickedPosition);
+            line.SetPosition(0,  _energyObjectClicked.transform.position);
             line.SetPosition(1, mousePos);
         }
     }
@@ -67,19 +66,39 @@ public class LineTest : MonoBehaviour
         line.sortingOrder = 1;
     }
 
-    public void EnergyObjectClicked(Vector3 _objectPosition)
+    public void EnergyObjectClicked(EnergyController _objectClicked)
     {
-        _energyObjectClicked = true;
-        _objectClickedPosition = _objectPosition;
+        _energyObjectClicked = _objectClicked;
     }
 
     public void SetEnergyDisabledObject(EnergyController _energyObject)
     {
-        _energyDisabledObject = _energyObject;
+        if (!_energyObjectClicked){
+            return;
+        }
+        if (_energyObject != _energyObjectClicked){
+            _energyDisabledObject = _energyObject;
+        }
     }
 
     public void RemoveEnergyDisabledObject()
     {
         _energyDisabledObject = null;
+    }
+
+    private void RemoveEnergyClickedObject()
+    {
+        _energyObjectClicked = null;
+    }
+
+    /// <summary>
+    /// Destroys lines for a new level
+    /// </summary>
+    public void ClearLines()
+    {
+        foreach (var line in _SpawnedLines){
+            Destroy(line.gameObject);
+        }
+        _SpawnedLines.Clear();
     }
 }

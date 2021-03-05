@@ -6,37 +6,38 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
 {
     [SerializeField] private bool _hasEnergy;
 
+    [SerializeField] private bool _isConnected;
+
     [SerializeField] private Image _glow;
     
-    private LineTest _lineTest;
+    private LineManager _lineManager;
 
     private void Start()
     {
-        _lineTest = FindObjectOfType<LineTest>();
+        _lineManager = FindObjectOfType<LineManager>();
     }
     
     public void OnPointerDown(PointerEventData eventData)
     {
         if (_hasEnergy){
-            _lineTest.EnergyObjectClicked(transform.position);
+            _lineManager.EnergyObjectClicked(this);
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Entrou");
-        if (_hasEnergy){
-            _lineTest.EnergyObjectClicked(transform.position);
+        if (_hasEnergy && _isConnected){
+            _lineManager.EnergyObjectClicked(this);
             return;
         }
 
-        _lineTest.SetEnergyDisabledObject(this);
+        _lineManager.SetEnergyDisabledObject(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!_hasEnergy){
-            _lineTest.RemoveEnergyDisabledObject();
+            _lineManager.RemoveEnergyDisabledObject();
         }
     }
 
@@ -44,5 +45,11 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
     {
         _hasEnergy = true;
         _glow.enabled = true;
+        _isConnected = true;
+    }
+
+    public bool GetConnectedStatus()
+    {
+        return _isConnected;
     }
 }
