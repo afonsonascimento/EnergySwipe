@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button _nextButton;
     [SerializeField] private Button _menuButton;
     [SerializeField] private GameObject _closeButton;
+    [SerializeField] private GameObject _gameFrame;
 
     private bool _levelSelectionOpened;
     
@@ -22,10 +24,20 @@ public class UIController : MonoBehaviour
     {
         if (!_levelSelectionOpened){
             _levelSelectionOpened = true;
-            _levelNumberText.enabled = true;
-            _nextButton.gameObject.SetActive(true);
-            _previousButton.gameObject.SetActive(true);
+            
+            //Menu button anims
+            _menuButton.gameObject.transform.DORotate(new Vector3(0, 0, -180), 0.25f);
+            _menuButton.gameObject.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.25f);
+            
+            //Game frame anims
+            _gameFrame.transform.DOScale(new Vector3(0.7f, 0.7f, 0.7f), 0.25f);
+
+            //Level selection anims
+            _levelNumberText.gameObject.transform.DOLocalMove(Vector3.zero, 0.25f);
+            _nextButton.gameObject.transform.DOLocalMove(new Vector3(150, 0, 0), 0.25f);
+            _previousButton.gameObject.transform.DOLocalMove(new Vector3(-150, 0, 0), 0.25f);
             UpdateLevelSelectionUI();
+            
             _closeButton.SetActive(true);
         } else{
             CloseLevelSelection();
@@ -87,9 +99,19 @@ public class UIController : MonoBehaviour
     public void CloseLevelSelection()
     {
         _levelSelectionOpened = false;
-        _levelNumberText.enabled = false;
-        _nextButton.gameObject.SetActive(false);
-        _previousButton.gameObject.SetActive(false);
+        
+        //Level selection anims
+        _levelNumberText.gameObject.transform.DOLocalMove(new Vector3(0, 250,0), 0.25f);
+        _nextButton.gameObject.transform.DOLocalMove(new Vector3(150, 250, 0), 0.25f);
+        _previousButton.gameObject.transform.DOLocalMove(new Vector3(-150, 250, 0), 0.25f);
+        
         _closeButton.SetActive(false);
+        
+        //menu button anims
+        _menuButton.gameObject.transform.DOScale(Vector3.one, 0.25f);
+        _menuButton.gameObject.transform.DORotate(new Vector3(0, 0, 0), 0.25f);
+        
+        //game frame anim
+        _gameFrame.transform.DOScale(Vector3.one, 0.25f);
     }
 }
