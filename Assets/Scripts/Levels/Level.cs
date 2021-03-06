@@ -4,10 +4,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Level", menuName = "Level", order = 1)]
 public class Level : ScriptableObject
 {
-    [SerializeField]
-    private List<int> _parcelNumbers;
-    [SerializeField]
-    private List<bool> _checkParcelEnergy;
+    [SerializeField] private bool _isUnlocked;
+    
+    [SerializeField] private List<int> _parcelNumbers;
+    
+    [SerializeField] private List<bool> _checkParcelEnergy;
 
     public List<int> GetLevelParcels()
     {
@@ -27,5 +28,21 @@ public class Level : ScriptableObject
     public void SetLevelEnergyBoolList(List<bool> _bools)
     {
         _checkParcelEnergy = _bools;
+    }
+
+    /// <summary>
+    /// Returns unlocked status
+    /// </summary>
+    public bool GetUnlockedStatus()
+    {
+        return _isUnlocked;
+    }
+
+    /// <summary>
+    /// Unlocks this level
+    /// </summary>
+    public void UnlockLevel()
+    {
+        _isUnlocked = true;
     }
 }

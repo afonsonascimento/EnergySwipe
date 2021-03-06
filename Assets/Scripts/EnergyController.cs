@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -22,6 +23,8 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         if (_hasEnergy){
             _lineManager.EnergyObjectClicked(this);
         }
+        
+        Debug.Log("ON POINTER DOWN");
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -32,10 +35,20 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         }
 
         _lineManager.SetEnergyDisabledObject(this);
+        Debug.Log("ON POINTER ENTER");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+
+        StartCoroutine(WaitSomeTime());
+        Debug.Log("ON POINTER EXIT");
+
+    }
+
+    private IEnumerator WaitSomeTime()
+    {
+        yield return new WaitForEndOfFrame();
         if (!_hasEnergy){
             _lineManager.RemoveEnergyDisabledObject();
         }
