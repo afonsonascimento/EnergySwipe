@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -76,7 +75,7 @@ public class LevelController : MonoBehaviour
     /// <summary>
     /// Moves to next level if available
     /// </summary>
-    private void GoToNextLevel()
+    public void GoToNextLevel()
     {
         CleanLevel();
         _currentLevel += 1;
@@ -95,6 +94,23 @@ public class LevelController : MonoBehaviour
             PopulateLevel(_currentLevel);
         }
         
+    }
+
+    /// <summary>
+    /// Moves to previous level
+    /// </summary>
+    public void GoToPreviousLevel()
+    {
+        CleanLevel();
+        _currentLevel -= 1;
+
+
+        if (_currentLevel > 0){
+            PopulateLevel(_currentLevel);
+        } else{
+            _currentLevel = 0;
+            PopulateLevel(_currentLevel);
+        }
     }
 
     /// <summary>
@@ -168,6 +184,9 @@ public class LevelController : MonoBehaviour
     }
 #endif
 
+    /// <summary>
+    /// Checks if every energy controller is connected
+    /// </summary>
     private bool CheckLevelCompleted()
     {
         for (var i = 0; i < _levelEnergyControllers.Count; i++){
@@ -184,6 +203,26 @@ public class LevelController : MonoBehaviour
     public int GetCurrentLevel()
     {
         return _currentLevel;
+    }
+
+    /// <summary>
+    /// Checks if next level is unlocked
+    /// </summary>
+    public bool IsNextLevelUnlocked()
+    {
+        if (_levelData.GetLevels().Count > _currentLevel + 1){
+            return _levelData.GetLevels()[_currentLevel+1].GetUnlockedStatus();
+        } 
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if there is a previous level
+    /// </summary>
+    /// <returns></returns>
+    public bool IsPreviousLevelAvailable()
+    {
+        return _currentLevel - 1 >= 0;
     }
 }
 
