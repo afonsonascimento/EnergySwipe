@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //PlayerPrefs.SetInt("Level",0);
+        PlayerPrefs.DeleteAll();
         _currentLevel = PlayerPrefs.GetInt("Level", 0);
         InitiateLevel(_currentLevel);
     }
