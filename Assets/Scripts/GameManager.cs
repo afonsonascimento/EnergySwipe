@@ -3,7 +3,7 @@
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private LevelController _levelController;
-    [SerializeField] private int _currentLevel = 0;
+    private int _currentLevel = 0;
 
     private void Start()
     {
