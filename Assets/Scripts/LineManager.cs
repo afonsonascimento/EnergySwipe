@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MoreMountains.NiceVibrations;
 using UnityEngine;
 
 public class LineManager : MonoBehaviour
@@ -59,6 +60,7 @@ public class LineManager : MonoBehaviour
             mousePos.z = 0;
             line.SetPosition(0,  _energyObjectClicked.transform.position);
             line.SetPosition(1, mousePos);
+            MMVibrationManager.Haptic(HapticTypes.Selection,true,true,this);
         }
     }
 
