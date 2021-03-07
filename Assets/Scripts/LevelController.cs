@@ -14,28 +14,30 @@ public class LevelController : MonoBehaviour
     [SerializeField, Tooltip("UI controller reference")]
     private UIController _uiController;
     
-    [SerializeField] private Levels _levelData;
+    [SerializeField, Tooltip("Reference to levels data")]
+    private Levels _levelData;
     
-    [SerializeField] private List<Transform> _objectPossiblePositions;
+    [SerializeField, Tooltip("Reference to object instantiate positions")]
+    private List<Transform> _objectPossiblePositions;
 
-    [SerializeField] private GameObject _energyPrefab;
+    [SerializeField, Tooltip("Reference to the energy prefab")]
+    private GameObject _energyPrefab;
 
-    [SerializeField] private GameObject _lampPrefab;
+    [SerializeField, Tooltip("Reference to the lamp prefab")]
+    private GameObject _lampPrefab;
 
-    [SerializeField] private List<EnergyController> _levelEnergyControllers;
+    [SerializeField, Tooltip("Reference to energy controllers")]
+    private List<EnergyController> _levelEnergyControllers;
 
-    [SerializeField] private int _percentageOfEnergies = 5;
-    [SerializeField] private int _percentageOfLamps = 20;
+    [SerializeField, Tooltip("On level creation, represents percentage of energies that can be spawned")] 
+    private int _percentageOfEnergies = 5;
+    
+    [SerializeField, Tooltip("On level creation, represents percentage of lamps that can be spawned")] 
+    private int _percentageOfLamps = 20;
 
-    [SerializeField]private int _currentLevel = 0;
-
-    /// <summary>
-    /// Returns all level data
-    /// </summary>
-    public Levels GetLevelData()
-    {
-        return _levelData;
-    }
+    [SerializeField, Tooltip("Current level reference")]
+    private int _currentLevel = 0;
+    
 
     //Uncomment to generate levels in editor mode
     /*private void Update()
@@ -52,11 +54,10 @@ public class LevelController : MonoBehaviour
     public void PopulateLevel(int _levelToGenerate)
     {
         _currentLevel = _levelToGenerate;
-        Debug.Log("CurrentLevel + " + _currentLevel);
         Level level = _levelData.GetLevels()[_levelToGenerate];
         Debug.Log("Nivel + " + level.name);
         List<int> parcelNumbers = level.GetLevelParcels();
-        List<bool> hasEnergyObjects = level.GetEnergyBools();
+        List<bool> hasEnergyObjects = level.GetEnergyBooleans();
 
         for (int i = 0; i < level.GetLevelParcels().Count; i++){
             if (hasEnergyObjects[i]){

@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _gameFrame;
     [SerializeField] private GameObject _lineHolder;
 
-    [SerializeField] private Image _nextLevelAnimObject;
+    [SerializeField] private Image _nextLevelImageToAnimate;
 
     private bool _levelSelectionOpened;
     
@@ -26,26 +26,7 @@ public class UIController : MonoBehaviour
     public void MenuButtonPressed()
     {
         if (!_levelSelectionOpened){
-            _levelSelectionOpened = true;
-            
-            //Menu button anims
-            _menuButton.gameObject.transform.DORotate(new Vector3(0, 0, -180), 0.25f);
-            _menuButton.gameObject.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.25f);
-            
-            //Game frame anims
-            _gameFrame.transform.DOScale(new Vector3(0.7f, 0.7f, 0.7f), 0.25f);
-
-            //Level selection anims
-            _levelNumberText.gameObject.transform.DOLocalMove(Vector3.zero, 0.25f);
-            _nextButton.gameObject.transform.DOLocalMove(new Vector3(150, 0, 0), 0.25f);
-            _previousButton.gameObject.transform.DOLocalMove(new Vector3(-150, 0, 0), 0.25f);
-            UpdateLevelSelectionUI();
-            
-            //Line holder anims
-            _lineHolder.transform.DOScale(new Vector3(0.7f, 0.7f, 1), 0.25f);
-            _lineHolder.transform.DOLocalMove(new Vector3(0, 0.3f, 0), 0.25f);
-            
-            _closeButton.SetActive(true);
+            OpenLevelSelection();
         } else{
             CloseLevelSelection();
         }
@@ -103,6 +84,33 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
+    /// Opens level selection
+    /// </summary>
+    private void OpenLevelSelection()
+    {
+        _levelSelectionOpened = true;
+            
+        //Menu button anims
+        _menuButton.gameObject.transform.DORotate(new Vector3(0, 0, -180), 0.25f);
+        _menuButton.gameObject.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.25f);
+            
+        //Game frame anims
+        _gameFrame.transform.DOScale(new Vector3(0.7f, 0.7f, 0.7f), 0.25f);
+
+        //Level selection anims
+        _levelNumberText.gameObject.transform.DOLocalMove(Vector3.zero, 0.25f);
+        _nextButton.gameObject.transform.DOLocalMove(new Vector3(150, 0, 0), 0.25f);
+        _previousButton.gameObject.transform.DOLocalMove(new Vector3(-150, 0, 0), 0.25f);
+        UpdateLevelSelectionUI();
+            
+        //Line holder anims
+        _lineHolder.transform.DOScale(new Vector3(0.7f, 0.7f, 1), 0.25f);
+        _lineHolder.transform.DOLocalMove(new Vector3(0, 0.3f, 0), 0.25f);
+            
+        _closeButton.SetActive(true);
+    }
+
+    /// <summary>
     /// Closes level selection
     /// </summary>
     public void CloseLevelSelection()
@@ -133,9 +141,9 @@ public class UIController : MonoBehaviour
     /// </summary>
     public void LevelEndedAnimation()
     {
-        _nextLevelAnimObject.transform.DOScale(new Vector3(0, 0, 1), 0);
-        _nextLevelAnimObject.DOFade(1, 0);
-        _nextLevelAnimObject.transform.DOScale(new Vector3(25, 25, 1), 0.5f);
-        _nextLevelAnimObject.DOFade(0, 0.5f);
+        _nextLevelImageToAnimate.transform.DOScale(new Vector3(0, 0, 1), 0);
+        _nextLevelImageToAnimate.DOFade(1, 0);
+        _nextLevelImageToAnimate.transform.DOScale(new Vector3(25, 25, 1), 0.5f);
+        _nextLevelImageToAnimate.DOFade(0, 0.5f);
     }
 }
