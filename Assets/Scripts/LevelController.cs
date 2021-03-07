@@ -10,6 +10,9 @@ public class LevelController : MonoBehaviour
 
     [SerializeField, Tooltip("Audio manager reference")]
     private AudioManager _audioManager;
+
+    [SerializeField, Tooltip("UI controller reference")]
+    private UIController _uiController;
     
     [SerializeField] private Levels _levelData;
     
@@ -24,7 +27,7 @@ public class LevelController : MonoBehaviour
     [SerializeField] private int _percentageOfEnergies = 5;
     [SerializeField] private int _percentageOfLamps = 20;
 
-    private int _currentLevel = 0;
+    [SerializeField]private int _currentLevel = 0;
 
     /// <summary>
     /// Returns all level data
@@ -74,6 +77,7 @@ public class LevelController : MonoBehaviour
     {
         if (CheckLevelCompleted()){
             _audioManager.LevelCompleted();
+            _uiController.LevelEndedAnimation();
             GoToNextLevel();
         }
     }

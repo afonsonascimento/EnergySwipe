@@ -2,7 +2,8 @@
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource _sfxSource;
+    [SerializeField] private AudioSource _uiSFXASource;
+    [SerializeField] private AudioSource _gameSFXASource;
 
     [SerializeField] private AudioClip _levelStartClip;
     [SerializeField] private AudioClip _energyClickedClip;
@@ -15,7 +16,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void LevelStart()
     {
-        _sfxSource.PlayOneShot(_levelStartClip);
+        _gameSFXASource.PlayOneShot(_levelStartClip);
     }
 
     /// <summary>
@@ -23,7 +24,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void EnergyClicked()
     {
-        _sfxSource.PlayOneShot(_energyClickedClip);
+        _gameSFXASource.PlayOneShot(_energyClickedClip);
     }
 
     /// <summary>
@@ -31,7 +32,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void LineConnected()
     {
-        _sfxSource.PlayOneShot(_lineConnectedClip);
+        _gameSFXASource.PlayOneShot(_lineConnectedClip);
     }
 
     /// <summary>
@@ -39,7 +40,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void LevelCompleted()
     {
-        _sfxSource.PlayOneShot(_levelCompletedClip);
+        _gameSFXASource.PlayOneShot(_levelCompletedClip);
     }
 
     /// <summary>
@@ -47,7 +48,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void MenuButtonClick()
     {
-        _sfxSource.PlayOneShot(_buttonClick);
+        _uiSFXASource.PlayOneShot(_buttonClick);
     }
     
 }
