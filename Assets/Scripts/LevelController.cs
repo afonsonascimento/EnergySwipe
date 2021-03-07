@@ -7,6 +7,9 @@ public class LevelController : MonoBehaviour
 {
     [SerializeField, Tooltip("Line manager reference")]
     private LineManager _lineManager;
+
+    [SerializeField, Tooltip("Audio manager reference")]
+    private AudioManager _audioManager;
     
     [SerializeField] private Levels _levelData;
     
@@ -23,6 +26,9 @@ public class LevelController : MonoBehaviour
 
     private int _currentLevel = 0;
 
+    /// <summary>
+    /// Returns all level data
+    /// </summary>
     public Levels GetLevelData()
     {
         return _levelData;
@@ -67,6 +73,7 @@ public class LevelController : MonoBehaviour
     public void CheckLevelCompletion()
     {
         if (CheckLevelCompleted()){
+            _audioManager.LevelCompleted();
             GoToNextLevel();
         }
     }

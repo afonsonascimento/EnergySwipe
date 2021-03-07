@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Button _menuButton;
     [SerializeField] private GameObject _closeButton;
     [SerializeField] private GameObject _gameFrame;
+    [SerializeField] private GameObject _lineHolder;
 
     private bool _levelSelectionOpened;
     
@@ -37,6 +38,10 @@ public class UIController : MonoBehaviour
             _nextButton.gameObject.transform.DOLocalMove(new Vector3(150, 0, 0), 0.25f);
             _previousButton.gameObject.transform.DOLocalMove(new Vector3(-150, 0, 0), 0.25f);
             UpdateLevelSelectionUI();
+            
+            //Line holder anims
+            _lineHolder.transform.DOScale(new Vector3(0.7f, 0.7f, 1), 0.25f);
+            _lineHolder.transform.DOLocalMove(new Vector3(0, 0.3f, 0), 0.25f);
             
             _closeButton.SetActive(true);
         } else{
@@ -113,5 +118,9 @@ public class UIController : MonoBehaviour
         
         //game frame anim
         _gameFrame.transform.DOScale(Vector3.one, 0.25f);
+        
+        //Line holder anims
+        _lineHolder.transform.DOScale(new Vector3(1f, 1f, 1), 0.25f);
+        _lineHolder.transform.DOLocalMove(new Vector3(0, 0, 0), 0.25f);
     }
 }

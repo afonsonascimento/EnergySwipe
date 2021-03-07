@@ -5,6 +5,9 @@ public class LineManager : MonoBehaviour
 {
     [SerializeField, Tooltip("Level Controller reference")]
     private LevelController _levelController;
+
+    [SerializeField, Tooltip("Audio manager reference")]
+    private AudioManager _audioManager;
     
     private LineRenderer line;
     private Vector3 mousePos;
@@ -13,6 +16,9 @@ public class LineManager : MonoBehaviour
     private EnergyController _energyObjectClicked;
     private EnergyController _energyDisabledObject;
     private List<LineRenderer> _SpawnedLines = new List<LineRenderer>();
+
+    [SerializeField, Tooltip("Line parent reference")]
+    private Transform _lineParentTransform;
     
 
     private void Update()
@@ -29,6 +35,7 @@ public class LineManager : MonoBehaviour
             mousePos.z = 0;
             line.SetPosition(0, _energyObjectClicked.transform.position);
             line.SetPosition(1, mousePos);
+            _audioManager.EnergyClicked();
         } else if (Input.GetMouseButtonUp(0) && line){
             if (_energyDisabledObject){
                 _energyDisabledObject.EnableEnergy();
@@ -40,7 +47,8 @@ public class LineManager : MonoBehaviour
                 currLines++;
                 RemoveEnergyDisabledObject();
                 _levelController.CheckLevelCompletion();
-                
+                _audioManager.LineConnected();
+
             } else{
                 Destroy(line.gameObject);
             }
@@ -57,6 +65,7 @@ public class LineManager : MonoBehaviour
     private void CreateLine()
     {
         line = new GameObject("Line" + currLines).AddComponent<LineRenderer>();
+        line.gameObject.transform.SetParent(_lineParentTransform);
         line.material = material;
         line.positionCount = 2;
         line.startWidth = 0.05f;
