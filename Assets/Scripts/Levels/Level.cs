@@ -15,16 +15,22 @@ public class Level : ScriptableObject
         return _parcelNumbers;
     }
 
-    public List<bool> GetEnergyBools()
+    public List<bool> GetEnergyBooleans()
     {
         return _checkParcelEnergy;
     }
 
+    /// <summary>
+    /// On level creation, these numbers represent location positions
+    /// </summary>
     public void SetLevelParcelNumbersList(List<int> _numbers)
     {
         _parcelNumbers = _numbers;
     }
 
+    /// <summary>
+    /// On level creation, these booleans represent objects that have energy 
+    /// </summary>
     public void SetLevelEnergyBoolList(List<bool> _bools)
     {
         _checkParcelEnergy = _bools;

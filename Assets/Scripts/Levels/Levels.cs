@@ -4,9 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Levels", menuName = "Levels", order = 1)]
 public class Levels : ScriptableObject
 {
-    [SerializeField, Tooltip("Current unlocked levels")]
-    private int _currentUnlockedLevels;
-
     [SerializeField, Tooltip("Level list")]
     private List<Level> _levels;
 

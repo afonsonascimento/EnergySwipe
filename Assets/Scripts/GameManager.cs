@@ -53,6 +53,9 @@ public class GameManager : MonoBehaviour
         _levelController.GoToPreviousLevel();
     }
     
+    /// <summary>
+    /// Saves current level on player prefs when the game is closed
+    /// </summary>
     void OnApplicationQuit()
     {
         PlayerPrefs.SetInt("Level", _levelController.GetCurrentLevel());

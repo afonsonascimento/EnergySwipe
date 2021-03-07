@@ -10,21 +10,23 @@ public class LineManager : MonoBehaviour
     [SerializeField, Tooltip("Audio manager reference")]
     private AudioManager _audioManager;
     
-    private LineRenderer line;
-    private Vector3 mousePos;
-    public Material material;
-    private int currLines = 0;
-    private EnergyController _energyObjectClicked;
-    private EnergyController _energyDisabledObject;
-    private List<LineRenderer> _SpawnedLines = new List<LineRenderer>();
-
     [SerializeField, Tooltip("Line parent reference")]
     private Transform _lineParentTransform;
+    
+    private LineRenderer line;
+    private Vector3 mousePos;
+    public Material _lineMaterial;
+    private int currLines = 0;
+    
+    private EnergyController _energyObjectClicked;
+    private EnergyController _energyDisabledObject;
+    
+    private List<LineRenderer> _spawnedLines = new List<LineRenderer>();
     
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)){
+        if (Input.GetMouseButtonDown(0)){ 
 
             if (!_energyObjectClicked){
                 return;
@@ -43,7 +45,7 @@ public class LineManager : MonoBehaviour
                 _energyObjectClicked.EnableEnergy();
                 line.SetPosition(0, _energyObjectClicked.transform.position);
                 line.SetPosition(1, _energyDisabledObject.transform.position);
-                _SpawnedLines.Add(line);
+                _spawnedLines.Add(line);
                 line = null;
                 currLines++;
                 RemoveEnergyDisabledObject();
@@ -64,11 +66,14 @@ public class LineManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates a line renderer 
+    /// </summary>
     private void CreateLine()
     {
         line = new GameObject("Line" + currLines).AddComponent<LineRenderer>();
         line.gameObject.transform.SetParent(_lineParentTransform);
-        line.material = material;
+        line.material = _lineMaterial;
         line.positionCount = 2;
         line.startWidth = 0.05f;
         line.endWidth = 0.05f;
@@ -77,11 +82,17 @@ public class LineManager : MonoBehaviour
         line.sortingOrder = 1;
     }
 
+    /// <summary>
+    /// Sets energy object clicked for line positioning
+    /// </summary>
     public void EnergyObjectClicked(EnergyController _objectClicked)
     {
         _energyObjectClicked = _objectClicked;
     }
 
+    /// <summary>
+    /// Sets energy disabled object for line positioning
+    /// </summary>
     public void SetEnergyDisabledObject(EnergyController _energyObject)
     {
         if (!_energyObjectClicked){
@@ -92,11 +103,17 @@ public class LineManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Removes energy disabled object
+    /// </summary>
     public void RemoveEnergyDisabledObject()
     {
         _energyDisabledObject = null;
     }
 
+    /// <summary>
+    /// Removes energy clicked object
+    /// </summary>
     private void RemoveEnergyClickedObject()
     {
         _energyObjectClicked = null;
@@ -107,9 +124,9 @@ public class LineManager : MonoBehaviour
     /// </summary>
     public void ClearLines()
     {
-        foreach (var line in _SpawnedLines){
+        foreach (var line in _spawnedLines){
             Destroy(line.gameObject);
         }
-        _SpawnedLines.Clear();
+        _spawnedLines.Clear();
     }
 }

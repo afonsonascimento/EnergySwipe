@@ -18,6 +18,9 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         _lineManager = FindObjectOfType<LineManager>();
     }
     
+    /// <summary>
+    /// Called then pointer is down on an energy controller
+    /// </summary>
     public void OnPointerDown(PointerEventData eventData)
     {
         if (_hasEnergy){
@@ -27,6 +30,9 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         Debug.Log("ON POINTER DOWN");
     }
 
+    /// <summary>
+    /// Called then pointer enters an energy controller
+    /// </summary>
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (_hasEnergy && _isConnected){
@@ -38,6 +44,9 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         Debug.Log("ON POINTER ENTER");
     }
 
+    /// <summary>
+    /// Called then pointer leaves an energy controller
+    /// </summary>
     public void OnPointerExit(PointerEventData eventData)
     {
 
@@ -46,6 +55,9 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
 
     }
 
+    /// <summary>
+    /// Its needed to wait a frame because of "Input" sequencing
+    /// </summary>
     private IEnumerator WaitSomeTime()
     {
         yield return new WaitForEndOfFrame();
@@ -54,6 +66,9 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         }
     }
 
+    /// <summary>
+    /// Enables energy on energy controller
+    /// </summary>
     public void EnableEnergy()
     {
         _hasEnergy = true;
@@ -61,6 +76,9 @@ public class EnergyController : MonoBehaviour, IPointerDownHandler, IPointerEnte
         _isConnected = true;
     }
 
+    /// <summary>
+    /// Returns the connected status of the energy controller
+    /// </summary>
     public bool GetConnectedStatus()
     {
         return _isConnected;
